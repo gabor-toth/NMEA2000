@@ -28,6 +28,9 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 #include <string.h>
 #include <stdlib.h>
+#if defined(ESP_PLATFORM)
+#include "env_support/cmake/esp.h"
+#endif
 
 // #define DebugStream Serial   // outputs debug messages to the serial console (only for Arduino)
 #define DebugStream (*ForwardStream) // outputs debug messages to same destination as ForwardStream
@@ -1376,7 +1379,14 @@ bool tNMEA2000::SendFrames()
 }
 
 //*****************************************************************************
-bool tNMEA2000::SendFrame(unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent) {
+bool tNMEA2000::SendFrame(const tN2kMsg &N2kMsg,unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent) {
+    N2kMsgDbgStart("Send PGN %05x prio %02x src %02x dst %02x (canId %08x) len %2d",
+                   N2kMsg.PGN, N2kMsg.Priority, N2kMsg.Source, N2kMsg.Destination, id, N2kMsg.DataLen );
+#if defined(NMEA2000_BUF_DEBUG)
+    N2kMsgDbg(" data ");
+    DbgPrintBuf(len,buf,false);
+#endif
+    N2kMsgDbgln();
 
   if ( !SendFrames() || !CANSendFrame(id,len,buf,wait_sent) ) { // If we can not sent frame immediately, add it to buffer
     tCANSendFrame *Frame=GetNextFreeCANSendFrame();
@@ -1571,7 +1581,7 @@ bool tNMEA2000::SendMsg(const tN2kMsg &N2kMsg, int DeviceIndex) {
               }
           }
         }
-      };
+      }
       if ( ForwardOwnMessages() ) ForwardMessage(N2kMsg);
       break;
     case dm_ClearText:
@@ -2080,12 +2090,12 @@ uint8_t tNMEA2000::SetN2kCANBufMsg(unsigned long canId, unsigned char len, unsig
             N2kCANMsgBuf[MsgIndex].CopiedLen=0;
             if (FastPacket) {
               CopyBufToCANMsg(N2kCANMsgBuf[MsgIndex],2,len,buf);
-              N2kFrameInDbgStart("First frame="); N2kFrameInDbg(PGN);  N2kFrameInDbgln();
+              N2kFrameInDbgStart("First frame="); N2kFrameInDbg("%05x", PGN);  N2kFrameInDbgln();
               N2kCANMsgBuf[MsgIndex].LastFrame=buf[0];
               N2kCANMsgBuf[MsgIndex].N2kMsg.DataLen=buf[1];
             } else {
               CopyBufToCANMsg(N2kCANMsgBuf[MsgIndex],0,len,buf);
-              N2kFrameInDbgStart("Single frame="); N2kFrameInDbg(PGN); N2kFrameInDbgln();
+              N2kFrameInDbgStart("Single frame="); N2kFrameInDbg("%05x", PGN); N2kFrameInDbgln();
               N2kCANMsgBuf[MsgIndex].LastFrame=0;
               N2kCANMsgBuf[MsgIndex].N2kMsg.DataLen=len;
             }

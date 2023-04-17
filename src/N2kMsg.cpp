@@ -1089,9 +1089,9 @@ void PrintBuf(N2kStream *port, unsigned char len, const unsigned char *pData, bo
   if (port==0) return;
 
   for(int i = 0; i<len; i++) {
-    if (i>0) { port->print(F(",")); };
+    if (i>0) { port->print(F(" ")); };
     // Print bytes as hex.
-    port->print(pData[i], 16);
+    port->printByte(pData[i]);
   }
 
   if (AddLF) port->println(F(""));

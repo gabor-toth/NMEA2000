@@ -24,7 +24,8 @@ I/O stream used in the NMEA2000 libraries.
 
 */
 #include "N2kStream.h"
-#include <string.h>
+#include <cstring>
+#include <cstdio>
 
 #ifdef ARDUINO
 // Arduino uses its own implementation.
@@ -52,24 +53,18 @@ size_t N2kStream::print(const __FlashStringHelper* str) {
 #endif
 
 
-size_t N2kStream::print(int val, uint8_t radix) {
-
-   if(val == 0) {
-      // 0 is always 0 regardless of radix.
-      return write(reinterpret_cast<const uint8_t*>("0"), 1);
-   }
-
-   // Enough for binary representation.
+size_t N2kStream::print(int val) {
    char buf[8 * sizeof(val) + 1];
-   char *ptr = &buf[sizeof(buf) - 1];
-   *ptr = '\0';
 
-   do {
-      *--ptr="0123456789abcdef"[val % radix];
-      val /= radix;
-   } while(val != 0);
+   snprintf(buf,sizeof (buf), "%d", val);
+   return print(buf);
+}
 
-   return print(ptr);
+size_t N2kStream::printByte(int val) {
+   char buf[2 * sizeof(val) + 1];
+
+   snprintf(buf,sizeof (buf), "%02x", val);
+   return print(buf);
 }
 
 size_t N2kStream::println(void) {
