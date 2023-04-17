@@ -103,7 +103,9 @@ class N2kStream {
     * \param radix   Base format to be used (e.g. 10, 16, 8 ,2)
     * \return size_t 
     */
-   size_t print(int val, uint8_t radix = 10);
+   size_t print(int val);
+
+   size_t printByte(int val);
 
    /***********************************************************************//**
     * \brief Print string and newline to stream.
@@ -120,7 +122,7 @@ class N2kStream {
     * \param radix   Base format to be used (e.g. 10, 16, 8 ,2)
     * \return size_t 
     */
-   size_t println(int val, uint8_t radix = 10);
+   size_t println(int val);
 };
 #endif
 
