@@ -24,7 +24,15 @@ cmake_minimum_required(VERSION 3.0)
 
 if(ESP_PLATFORM)
   # using this library as a component in an ESP-IDF project
-  idf_component_register(SRC_DIRS src INCLUDE_DIRS src REQUIRES esp_timer driver)
+  set(NMEA2000_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
+
+  file(GLOB_RECURSE SOURCES ${NMEA2000_ROOT_DIR}/src/*.cpp)
+
+  idf_component_register(
+    SRCS ${SOURCES}
+    INCLUDE_DIRS ${NMEA2000_ROOT_DIR} ${NMEA2000_ROOT_DIR}/src
+    REQUIRES NMEA2000_esp32 esp_timer driver
+  )
   return() # ignore the rest of this file
 endif()
 

@@ -208,7 +208,7 @@ other related libraries. See origin for MBED port on <https://github.com/thomaso
 #define USE_N2K_CAN USE_N2K_AVR_CAN
 #elif defined(__linux__)||defined(__linux)||defined(linux)
 #define USE_N2K_CAN USE_N2K_SOCKET_CAN
-#elif defined(ARDUINO_ARCH_ESP32) || defined(ESP32)
+#elif defined(ARDUINO_ARCH_ESP32) || defined(ESP32) || defined(ESP_PLATFORM)
 #define USE_N2K_CAN USE_N2K_ESP32_CAN
 #elif defined(__IMXRT1062__)
 #define USE_N2K_CAN USE_N2K_TEENSYX_CAN
@@ -337,7 +337,6 @@ tNMEA2000 &NMEA2000=*(new tNMEA2000_esp32());
 tNMEA2000 &NMEA2000=*(new tNMEA2000_mcp(N2k_SPI_CS_PIN,MCP_CAN_CLOCK_SET,N2k_CAN_INT_PIN,MCP_CAN_RX_BUFFER_SIZE));
 
 #endif
-
 
 #endif
 
