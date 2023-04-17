@@ -1,0 +1,39 @@
+menu "NMEA2000 configuration"
+
+    config NMEA2000_BUF_DEBUG
+        bool "buffer debug"
+        default n
+        help
+            TBD
+
+    config NMEA2000_FRAME_ERROR_DEBUG
+        bool "frame error debug"
+        default n
+        help
+            TBD
+
+    config NMEA2000_FRAME_IN_DEBUG
+        bool "frame in debug"
+        default n
+        help
+            TBD
+
+    config NMEA2000_FRAME_OUT_DEBUG
+        bool "frame out debug"
+        default n
+        help
+            TBD
+
+    config NMEA2000_DEBUG
+        bool "generic debug"
+        default n
+        help
+            TBD
+
+    config NMEA2000_MSG_DEBUG
+        bool "message debug"
+        default n
+        help
+            TBD
+
+endmenu
