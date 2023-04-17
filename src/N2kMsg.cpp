@@ -559,11 +559,11 @@ void SetBufFloat(float v, int &index, unsigned char *buf) {
 #define N2kInt32OR 0x7ffffffe
 #define N2kUInt32OR 0xfffffffe
 
-#define N2kInt32Min -2147483648L
-#define N2kInt24OR  8388606L
-#define N2kInt24Min -8388608L
-#define N2kInt16Min -32768
-#define N2kInt8Min  -128
+#define N2kInt32Min (-2147483648L)
+#define N2kInt24OR  (8388606L)
+#define N2kInt24Min (-8388608L)
+#define N2kInt16Min (-32768)
+#define N2kInt8Min  (-128)
 
 //*****************************************************************************
 void SetBuf8ByteDouble(double v, double precision, int &index, unsigned char *buf) {
@@ -795,9 +795,9 @@ void PrintBuf(N2kStream *port, unsigned char len, const unsigned char *pData, bo
   if (port==0) return;
 
   for(int i = 0; i<len; i++) {
-    if (i>0) { port->print(F(",")); };
+    if (i>0) { port->print(F(" ")); };
     // Print bytes as hex.
-    port->print(pData[i], 16);
+    port->printByte(pData[i]);
   }
 
   if (AddLF) port->println(F(""));
