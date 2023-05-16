@@ -72,7 +72,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #if defined(NMEA2000_MSG_DEBUG)
-# define N2kMsgDbgStart(fmt, args...) DebugStream.print(N2kMillis()); DebugStream.print(": "); DebugStream.print (fmt , ## args)
+# define N2kMsgDbgStart(fmt, args...) DebugStream.print(DEBUG_TIMESTAMP()); DebugStream.print(": "); DebugStream.print (fmt , ## args)
 # define N2kMsgDbg(fmt, args...)     DebugStream.print (fmt , ## args)
 # define N2kMsgDbgln(fmt, args...)   DebugStream.println (fmt , ## args)
 #else
