@@ -1941,11 +1941,23 @@ uint8_t tNMEA2000::SetN2kCANBufMsg(unsigned long canId, unsigned char len, unsig
   uint8_t MsgIndex=MaxN2kCANMsgs;
 
     CanIdToN2k(canId,Priority,PGN,Source,Destination);
+//    if ( PGN != 129025 ) {
+//      N2kMsgDbgStart( "Recv PGN %05lx prio %02x src %02x dst %02x (canId %08lx) len %02d", PGN, Priority, Source, Destination, canId, len );
+//#if defined(NMEA2000_BUF_DEBUG)
+//      N2kMsgDbg(" data ");
+//#endif
+//      DbgPrintBuf( len, buf, false );
+//      N2kMsgDbgln();
+//    }
 #if !defined(N2K_NO_ISO_MULTI_PACKET_SUPPORT)
     if ( !TestHandleTPMessage(PGN,Source,Destination,len,buf,MsgIndex) )
 #endif
     {
       KnownMessage=CheckKnownMessage(PGN,SystemMessage,FastPacket);
+//    if ( PGN != 129025 ) {
+//        N2kMsgDbgStart( "  KnownMessage:%d SystemMessage:%d FastPacket:%d", KnownMessage, SystemMessage, FastPacket );
+//        N2kMsgDbgln();
+//    }
       if ( KnownMessage || !HandleOnlyKnownMessages() ) {
         if (FastPacket && !IsFastPacketFirstFrame(buf[0]) ) { // Not first frame
         N2kFrameInDbgStart("New frame="); N2kFrameInDbg(PGN); N2kFrameInDbg(" frame="); N2kFrameInDbg(buf[0],HEX); N2kFrameInDbgln();
@@ -2581,15 +2593,6 @@ void tNMEA2000::ParseMessages() {
 
     while (FramesRead<MaxReadFramesOnParse && CANGetFrame(canId,len,buf) ) {           // check if data coming
         FramesRead++;
-        N2kMsgDbgStart("Received frame, can ID:");
-        N2kMsgDbg("%08lx", canId);
-        N2kMsgDbg(" len ");
-        N2kMsgDbg("%02x", len);
-#if defined(NMEA2000_BUF_DEBUG)
-        N2kMsgDbg(" data ");
-#endif
-        DbgPrintBuf(len,buf,false);
-        N2kMsgDbgln();
         MsgIndex=SetN2kCANBufMsg(canId,len,buf);
         if (MsgIndex<MaxN2kCANMsgs) {
           if ( !HandleReceivedSystemMessage(MsgIndex) ) {
