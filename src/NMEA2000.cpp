@@ -2677,6 +2677,15 @@ void tNMEA2000::ParseMessages() {
 
     while (FramesRead<MaxReadFramesOnParse && CANGetFrame(canId,len,buf) ) {           // check if data coming
         FramesRead++;
+        N2kMsgDbgStart("Received frame, can ID:");
+        N2kMsgDbg("%08lx", canId);
+        N2kMsgDbg(" len ");
+        N2kMsgDbg("%02x", len);
+#if defined(NMEA2000_BUF_DEBUG)
+        N2kMsgDbg(" data ");
+#endif
+        DbgPrintBuf(len,buf,false);
+        N2kMsgDbgln();
         MsgIndex=SetN2kCANBufMsg(canId,len,buf);
         if (MsgIndex<MaxN2kCANMsgs) {
           if ( !HandleReceivedSystemMessage(MsgIndex) ) {
