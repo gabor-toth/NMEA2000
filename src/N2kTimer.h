@@ -1,3 +1,4 @@
+//@formatter:off
 #ifndef _N2k_TIMER_H_
 #define _N2k_TIMER_H_
 
@@ -349,6 +350,10 @@ public:
     NextTime=Now()+_Add;
     if ( NextTime==N2kSchedulerDisabled ) NextTime=0; // Roll over
     #endif
+  }
+
+  tN2kSchedulerTime GetNextTime() {
+    return NextTime;
   }
 };
 

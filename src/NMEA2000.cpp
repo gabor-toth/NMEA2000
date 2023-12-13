@@ -1,3 +1,4 @@
+//@formatter:off
 /*
 NMEA2000.cpp
 
@@ -152,6 +153,9 @@ void N2kPrintFreeMemory(const char *Source) {
 /** \brief A timeout occurred and this is the connection abort to close the
  * session */
 #define TP_CM_AbortTimeout 3
+
+#include <algorithm>
+static const char* TAG ="n2k";
 
 /************************************************************************//**
  * \
@@ -1465,6 +1469,57 @@ void tNMEA2000::SendHeartbeat(bool force) {
     }
   }
 }
+
+tN2kSchedulerTime tNMEA2000::GetTimeOfNextEvent() {
+    tN2kSchedulerTime next = N2kSchedulerDisabled;
+    if ( !IsActiveNode()) return next;
+
+    // SendFrames
+    // if ( OpenState != os_Open )
+    if ( isAbleToReceiveFrame( )) {
+        ESP_LOGI(TAG,"isAbleToReceiveFrame");
+        return 0;
+    }
+    if ( CANSendFrameBufferRead != CANSendFrameBufferWrite && isAbleToSendFrame() ) {
+        ESP_LOGI(TAG,"isAbleToSendFrame");
+        return 0;
+    }
+
+    // SendPendingInformation
+    for ( int i = 0; i < DeviceCount; i++ ) {
+        if ( Devices[ i ].HasPendingInformation ) {
+            // SendPendingTPMessage
+            if ( Devices[ i ].PendingTPMsg.PGN != 0 &&Devices[ i ].NextDTSendTime.IsEnabled()) {
+                next = std::min( next, Devices[ i ].NextDTSendTime.GetNextTime());
+            }
+
+            if (  Devices[ i ].PendingIsoAddressClaim.IsEnabled()) {
+                next = std::min( next, Devices[ i ].PendingIsoAddressClaim.GetNextTime());
+            }
+            if ( Devices[ i ].QueryPendingProductInformation() ) {
+                ESP_LOGI(TAG,"QueryPendingProductInformation");
+                return 0;
+            }
+            if (  Devices[ i ].QueryPendingConfigurationInformation() ) {
+                ESP_LOGI(TAG,"QueryPendingConfigurationInformation");
+                return 0;
+            }
+        }
+    }
+
+    // SendHeartbeat
+    for ( int iDev = 0; iDev < DeviceCount; iDev++ ) {
+        if ( Devices[ iDev ].AddressClaimTimer.IsEnabled() ) {
+            next = std::min(next, Devices[ iDev ].AddressClaimTimer.GetNextTime());
+        }
+        if ( Devices[ iDev ].HeartbeatScheduler.IsEnabled()) {
+            next = std::min(next, Devices[ iDev ].HeartbeatScheduler.GetNextTime());
+        }
+    }
+
+    return next;
+}
+
 #endif
 
 //*****************************************************************************
