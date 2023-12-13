@@ -1,3 +1,4 @@
+//@formatter:off
 /* 
  * NMEA2000.h
  *
@@ -2763,6 +2764,12 @@ public:
      */
     static bool IsBroadcast(unsigned char Source) { return Source==0xff; }
 
+
+protected:
+    virtual bool isAbleToSendFrame() = 0;
+    virtual bool isAbleToReceiveFrame() = 0;
+public:
+	tN2kSchedulerTime GetTimeOfNextEvent();
 };
 
 /************************************************************************//**
