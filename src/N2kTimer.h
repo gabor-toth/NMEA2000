@@ -179,7 +179,8 @@ public:
    * \return true -> when actual timestamp is greater the \ref NextTime
    * \return false 
    */
-  inline bool IsTime() { return N2kMillis64()>NextTime; }
+  inline bool IsTime() { return IsTime(N2kMillis64()); }
+  inline bool IsTime(uint64_t now) { return now>NextTime; }
 
   /************************************************************************//**
    * \brief Calculate remaining time 
@@ -212,7 +213,7 @@ public:
     Period=_Period; 
     Offset=_Offset;
     if ( Period==0 ) Disable(); 
-    UpdateNextTime(); 
+    UpdateNextTime();
   }
 
   /************************************************************************//**
@@ -241,11 +242,13 @@ public:
    *
    */
   void UpdateNextTime() {
+      UpdateNextTime(N2kMillis64());
+  }
+  void UpdateNextTime(uint64_t now) {
     if ( Period==0 ) {
       Disable();
       return;
     }
-    uint64_t now=N2kMillis64();
     if ( (Offset+SyncOffset)>now ) {
       NextTime=(Offset+SyncOffset);
     } else {

@@ -1454,10 +1454,11 @@ void tNMEA2000::SendHeartbeat(int iDev) {
 void tNMEA2000::SendHeartbeat(bool force) {
   if ( !IsActiveNode() ) return;
 
+  uint64_t now = N2kMillis64();
   for (int iDev=0; iDev<DeviceCount; iDev++) {
     if ( !IsAddressClaimStarted(iDev) ) {
-      if ( force || Devices[iDev].HeartbeatScheduler.IsTime() ) {
-        Devices[iDev].HeartbeatScheduler.UpdateNextTime();
+      if ( force || Devices[iDev].HeartbeatScheduler.IsTime(now) ) {
+        Devices[iDev].HeartbeatScheduler.UpdateNextTime(now);
         tN2kMsg N2kMsg;
         SetHeartbeat(N2kMsg,Devices[iDev].HeartbeatScheduler.GetPeriod(),force?0xff:Devices[iDev].HeartbeatSequence);
         SendMsg(N2kMsg,iDev);
