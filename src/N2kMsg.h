@@ -802,7 +802,7 @@ public:
    * \brief Clears the content of the N2kMsg object
    * The method sets the \ref PGN, \ref DataLen and \ref MsgTime to zero.
    */
-  virtual void Clear();
+  void Clear();
 
   /************************************************************************//**
    * \brief Checks if the Message Meta Content is valid
