@@ -1,3 +1,4 @@
+//@formatter:off
 /*
 N2kMessages.cpp
 
@@ -1232,7 +1233,7 @@ bool ParseN2kPGN129026(const tN2kMsg &N2kMsg, unsigned char &SID, tN2kHeadingRef
 // GNSS Position Data
 void SetN2kPGN129029(tN2kMsg &N2kMsg, unsigned char SID, uint16_t DaysSince1970, double SecondsSinceMidnight,
                      double Latitude, double Longitude, double Altitude,
-                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod,
+                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod, tN2kGNSSintegrity integrity,
                      unsigned char nSatellites, double HDOP, double PDOP, double GeoidalSeparation,
                      unsigned char nReferenceStations, tN2kGNSStype ReferenceStationType, uint16_t ReferenceSationID,
                      double AgeOfCorrection
@@ -1248,7 +1249,7 @@ void SetN2kPGN129029(tN2kMsg &N2kMsg, unsigned char SID, uint16_t DaysSince1970,
     N2kMsg.Add8ByteDouble(Longitude,1e-16);
     N2kMsg.Add8ByteDouble(Altitude,1e-6);
     N2kMsg.AddByte( (((unsigned char) GNSStype) & 0x0f) | (((unsigned char) GNSSmethod) & 0x0f)<<4 );
-    N2kMsg.AddByte(1 | 0xfc);  // Integrity 2 bit, reserved 6 bits
+    N2kMsg.AddByte((((unsigned char) integrity) & 0x03) | 0xfc);  // Integrity 2 bit, reserved 6 bits
     N2kMsg.AddByte(nSatellites);
     N2kMsg.Add2ByteDouble(HDOP,0.01);
     N2kMsg.Add2ByteDouble(PDOP,0.01);

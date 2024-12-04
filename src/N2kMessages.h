@@ -1,3 +1,4 @@
+//@formatter:off
 /* N2kMessages.h
  * 
  * Copyright (c) 2015-2025 Timo Lappalainen, Kave Oy, www.kave.fi
@@ -3266,7 +3267,7 @@ inline bool ParseN2kCOGSOGRapid(const tN2kMsg &N2kMsg, unsigned char &SID, tN2kH
  */
 void SetN2kPGN129029(tN2kMsg &N2kMsg, unsigned char SID, uint16_t DaysSince1970, double SecondsSinceMidnight,
                      double Latitude, double Longitude, double Altitude,
-                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod,
+                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod, tN2kGNSSintegrity integrity,
                      unsigned char nSatellites, double HDOP, double PDOP=0, double GeoidalSeparation=0,
                      unsigned char nReferenceStations=0, tN2kGNSStype ReferenceStationType=N2kGNSSt_GPS, uint16_t ReferenceSationID=0,
                      double AgeOfCorrection=0
@@ -3281,14 +3282,14 @@ void SetN2kPGN129029(tN2kMsg &N2kMsg, unsigned char SID, uint16_t DaysSince1970,
   */
 inline void SetN2kGNSS(tN2kMsg &N2kMsg, unsigned char SID, uint16_t DaysSince1970, double SecondsSinceMidnight,
                      double Latitude, double Longitude, double Altitude,
-                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod,
+                     tN2kGNSStype GNSStype, tN2kGNSSmethod GNSSmethod, tN2kGNSSintegrity integrity,
                      unsigned char nSatellites, double HDOP, double PDOP=0, double GeoidalSeparation=0,
                      unsigned char nReferenceStations=0, tN2kGNSStype ReferenceStationType=N2kGNSSt_GPS, uint16_t ReferenceSationID=0,
                      double AgeOfCorrection=0
                      ) {
   SetN2kPGN129029(N2kMsg,SID,DaysSince1970,SecondsSinceMidnight,
                   Latitude,Longitude,Altitude,
-                  GNSStype,GNSSmethod,
+                  GNSStype,GNSSmethod,integrity,
                   nSatellites,HDOP,PDOP,GeoidalSeparation,
                   nReferenceStations,ReferenceStationType,ReferenceSationID,
                   AgeOfCorrection);

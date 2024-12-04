@@ -1,3 +1,4 @@
+//@formatter:off
 /*
  * Copyright (c) 2019-2024 Timo Lappalainen, Kave Oy, www.kave.fi
  * 
@@ -60,7 +61,7 @@ enum tN2kNavigationDirection {
  * PGN129250, PGN129026 and PGN129284
  */
 enum tN2kHeadingReference {
-                            N2khr_true=0,         ///< heading true (eg. GNSS) direction 
+                            N2khr_true=0,         ///< heading true (eg. GNSS) direction
                             N2khr_magnetic=1,     ///< heading magnetic compass direction
                             N2khr_error=2,        ///< error occurred
                             N2khr_Unavailable=3   ///< unavailable
@@ -91,7 +92,7 @@ enum tN2kDistanceCalculationType {
  * Cross-track error (XTE) is an essential at-a-glance indication of your
  * distance to port or starboard of your intended straight track between two
  * waypoints.
- */                          
+ */
 enum tN2kXTEMode  {
                             N2kxtem_Autonomous=0,     ///< autonomous mode
                             N2kxtem_Differential=1,   ///< differential mode
@@ -122,7 +123,7 @@ enum tN2kGNSStype {
  * 
  * These working methods of the GNSS determine the precision of the GNSS position
  * 
- */                          
+ */
 enum tN2kGNSSmethod {
                             N2kGNSSm_noGNSS=0,        ///< no GNSS available
                             N2kGNSSm_GNSSfix=1,       ///< GNSS is fixed and available
@@ -133,6 +134,16 @@ enum tN2kGNSSmethod {
                             N2kGNSSm_Error=14,        ///< error occurred
                             N2kGNSSm_Unavailable=15   ///< GNSS is unavailable
                           };
+/*************************************************************************//**
+ * \enum tN2kGNSSintegrity
+ * \brief Enumeration of GNSS integrity according to PGN129029
+ * 
+ */
+enum tN2kGNSSintegrity {
+                            N2kGNSSi_noIntegrityChecking = 0,
+                            N2kGNSSi_safe = 1,
+                            N2kGNSSi_caution = 2
+};
 /*************************************************************************//**
  * \enum tN2kGNSSDOPmode
  * \brief Enumeration of GNSS DOP Mode according to PGN129539
@@ -172,8 +183,8 @@ enum tN2kTempSource {
                             N2kts_SeaTemperature=0,                         ///< value is representing a sea water temperature
                             N2kts_OutsideTemperature=1,                     ///< value is representing an outside temperature
                             N2kts_InsideTemperature=2,                      ///< value is representing an inside temperature
-                            N2kts_EngineRoomTemperature=3,                  ///< value is representing an engine room temperature 
-                            N2kts_MainCabinTemperature=4,                   ///< value is representing a main cabin temperature 
+                            N2kts_EngineRoomTemperature=3,                  ///< value is representing an engine room temperature
+                            N2kts_MainCabinTemperature=4,                   ///< value is representing a main cabin temperature
                             N2kts_LiveWellTemperature=5,                    ///< value is representing a live well temperature
                             N2kts_BaitWellTemperature=6,                    ///< value is representing a bait well temperature
                             N2kts_RefridgerationTemperature=7,              ///< value is representing a refrigeration temperature
@@ -304,7 +315,7 @@ enum tN2kDCType {
  * only).
  */
 enum tN2kBatType  {
-                            N2kDCbt_Flooded=0,          ///< battery type is an flooded lead acid 
+                            N2kDCbt_Flooded=0,          ///< battery type is an flooded lead acid
                             N2kDCbt_Gel=1,              ///< battery type is GEL
                             N2kDCbt_AGM=2               ///< battery type is AGM
                           };
@@ -399,7 +410,7 @@ enum tN2kAISNavStatus {
                             N2kaisns_Under_Way_Motoring=0,                  ///< Ship is under way and motoring
                             N2kaisns_At_Anchor=1,                           ///< Ship is at anchor
                             N2kaisns_Not_Under_Command=2,                   ///< Ship is not under command
-                            N2kaisns_Restricted_Manoeuverability=3,         ///< Ship has a restricted manoeuverability 
+                            N2kaisns_Restricted_Manoeuverability=3,         ///< Ship has a restricted manoeuverability
                             N2kaisns_Constrained_By_Draught=4,              ///< Ship has constrains by drought
                             N2kaisns_Moored=5,                              ///< Ship is moored
                             N2kaisns_Aground=6,                             ///< Ship is aground
@@ -519,7 +530,7 @@ enum tN2kChargerMode {
                             N2kCM_Primary=1,      ///< Charger mode is primary charger
                             N2kCM_Secondary=2,    ///< Charger mode is secondary charger
                             N2kCM_Echo=3,         ///< Charger mode is echo
-                            N2kCM_Unavailable=15  ///< Charger mode is unvailable 
+                            N2kCM_Unavailable=15  ///< Charger mode is unvailable
                           };
 
 /*************************************************************************//**
@@ -530,12 +541,12 @@ enum tN2kSteeringMode {
                             N2kSM_MainSteering=0,               ///< The device is the main steering
                             N2kSM_NonFollowUpDevice=1,          ///< The device is a non followup device
                             N2kSM_FollowUpDevice=2,             ///< The device is a follup device
-                            N2kSM_HeadingControlStandalone=3,   ///< The heading controlsystem is a standalone 
+                            N2kSM_HeadingControlStandalone=3,   ///< The heading controlsystem is a standalone
                             N2kSM_HeadingControl=4,             ///< The device is a HeadingControl
                             N2kSM_TrackControl=5,               ///< The device is a TrackControl
                             N2kSM_Unavailable=7                 ///< unavailable
                           };
-                          
+
 /*************************************************************************//**
  * \enum tN2kTurnMode
  * \brief Enumeration of tunr control modes according to PGN127237
@@ -687,7 +698,7 @@ using tN2kGenericStatusPair = tN2kDD002;
                   // N2kDD002_Enabled=N2kDD002_Yes
                   // N2kDD002_Set=N2kDD002_Yes
                   // N2kDD002_1=N2kDD002_Yes
-                  // N2kDD002_Unknown=N2kDD002_Unavailable                         
+                  // N2kDD002_Unknown=N2kDD002_Unavailable
 
 /** \brief Alias easier for humans to read for \ref tN2kDD025*/
 using tN2kDataMode = tN2kDD025;
@@ -708,7 +719,7 @@ using tN2kRangeResidualMode = tN2kDD072;
                   // N2kDD072_Unavailable=3
 
 /** \brief Alias easier for humans to read for \ref tN2kDD124*/
-using tN2kPRNUsageStatus = tN2kDD124;                           
+using tN2kPRNUsageStatus = tN2kDD124;
                   // N2kDD124_NotTracked=0,
                   // N2kDD124_TrackedButNotUsedInSolution=1,
                   // N2kDD124_UsedInSolutionWithoutDifferentialCorrections=2,
@@ -797,7 +808,7 @@ using tN2kWindlassMonitoringEvents = tN2kDD477;
                             // .Event.ControllerUnderVoltageCutout = 0 | 1
                             // .Event.ControllerOverCurrentCutout = 0 | 1
                             // .Event.ControllerOverTemperatureCutout = 0 | 1
- 
+
 /** \brief Alias easier for humans to read for \ref tN2kDD478*/
 using tN2kWindlassControlEvents = tN2kDD478;
 			    // Union type with field:
