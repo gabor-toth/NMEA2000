@@ -2480,7 +2480,11 @@ public:
     bool SendConfigurationInformation(int DeviceIndex=0);
 
 #if !defined(N2K_NO_HEARTBEAT_SUPPORT)
-    
+
+    typedef void (*HeartBeatCallback)(const tN2kMsg& N2kMsg, int deviceIndex);
+protected:
+    HeartBeatCallback heartBeatCallback;
+public:
 
     /*********************************************************************//**
      * \brief Set the Heartbeat Interval and Offset for a device
@@ -2499,8 +2503,8 @@ public:
      * \param offset  		Heartbeat Offset in ms. 0xffffffff=keep current, 0xfffffffe=restore default
      * \param iDev          Index of the device on \ref Devices or -1 to set for all.
      */
-    void SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset=0, int iDev=-1);
-    
+    void SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset=0, int iDev=-1, HeartBeatCallback heartBeatCallback = nullptr);
+
     /*********************************************************************//**
      * \brief Get the Heartbeat Interval of a device
      *
