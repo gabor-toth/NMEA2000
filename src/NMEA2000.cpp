@@ -1411,8 +1411,9 @@ bool tNMEA2000::SendFrame(const tN2kMsg &N2kMsg,unsigned long id, unsigned char 
 
 #if !defined(N2K_NO_HEARTBEAT_SUPPORT)
 //*****************************************************************************
-void tNMEA2000::SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset, int iDev) {
+void tNMEA2000::SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset, int iDev, tNMEA2000::HeartBeatCallback _heartBeatCallback) {
   if ( interval==0xffffffff && offset==0xffff ) return; // Do not change
+  heartBeatCallback = _heartBeatCallback;
   InitDevices();
   for (int i=(iDev<0?0:iDev); i<DeviceCount && (iDev<0?true:i<iDev+1); i++) {
     if ( interval==0xffffffff ) {
@@ -1447,6 +1448,9 @@ void tNMEA2000::SendHeartbeat(int iDev) {
   if ( !IsValidDevice(iDev) ) return;
   tN2kMsg N2kMsg;
   SetHeartbeat(N2kMsg,Devices[iDev].HeartbeatScheduler.GetPeriod(),0xff);
+  if ( heartBeatCallback != nullptr) {
+    heartBeatCallback(N2kMsg,iDev);
+  }
   SendMsg(N2kMsg,iDev);
 }
 
@@ -1461,6 +1465,9 @@ void tNMEA2000::SendHeartbeat(bool force) {
         Devices[iDev].HeartbeatScheduler.UpdateNextTime(now);
         tN2kMsg N2kMsg;
         SetHeartbeat(N2kMsg,Devices[iDev].HeartbeatScheduler.GetPeriod(),force?0xff:Devices[iDev].HeartbeatSequence);
+        if ( heartBeatCallback != nullptr) {
+          heartBeatCallback(N2kMsg,iDev);
+        }
         SendMsg(N2kMsg,iDev);
         if ( !force ) {
           Devices[iDev].HeartbeatSequence++;
