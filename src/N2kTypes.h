@@ -187,7 +187,7 @@ enum tN2kTempSource {
                             N2kts_MainCabinTemperature=4,                   ///< value is representing a main cabin temperature
                             N2kts_LiveWellTemperature=5,                    ///< value is representing a live well temperature
                             N2kts_BaitWellTemperature=6,                    ///< value is representing a bait well temperature
-                            N2kts_RefridgerationTemperature=7,              ///< value is representing a refrigeration temperature
+                            N2kts_RefrigerationTemperature=7,              ///< value is representing a refrigeration temperature
                             N2kts_HeatingSystemTemperature=8,               ///< value is representing a heating system temperature
                             N2kts_DewPointTemperature=9,                    ///< value is representing a dew point temperature
                             N2kts_ApparentWindChillTemperature=10,          ///< value is representing an apparent wind chill temperature
