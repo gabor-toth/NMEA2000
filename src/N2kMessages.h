@@ -1170,7 +1170,7 @@ void SetN2kPGN127489(tN2kMsg &N2kMsg, unsigned char EngineInstance, double Engin
  * Alias of PGN 127489. This alias was introduced to improve the readability
  * of the source code. See parameter details on \ref SetN2kPGN127489
   */
-inline void SetN2kEngineDynamicParam(tN2kMsg &N2kMsg, unsigned char EngineInstance, double EngineOilPress, double EngineOilTemp, double EngineCoolantTemp, double AltenatorVoltage,
+inline void SetN2kEngineDynamicParamInline(tN2kMsg &N2kMsg, unsigned char EngineInstance, double EngineOilPress, double EngineOilTemp, double EngineCoolantTemp, double AltenatorVoltage,
                        double FuelRate, double EngineHours, double EngineCoolantPress=N2kDoubleNA, double EngineFuelPress=N2kDoubleNA,
                        int8_t EngineLoad=N2kInt8NA, int8_t EngineTorque=N2kInt8NA,
                        tN2kEngineDiscreteStatus1 Status1=0, tN2kEngineDiscreteStatus2 Status2=0) {
@@ -1226,7 +1226,7 @@ inline void SetN2kEngineDynamicParam(tN2kMsg &N2kMsg, unsigned char EngineInstan
  * \param flagNeutralStartProtect  Status flag NeutralStartProtect
  * \param flagEngineShuttingDown   Status flag EngineShuttingDown
 */
-inline void SetN2kPGN127489(tN2kMsg &N2kMsg, unsigned char EngineInstance, double EngineOilPress, double EngineOilTemp, double EngineCoolantTemp, double AltenatorVoltage,
+inline void SetN2kPGN127489Inline(tN2kMsg &N2kMsg, unsigned char EngineInstance, double EngineOilPress, double EngineOilTemp, double EngineCoolantTemp, double AltenatorVoltage,
                        double FuelRate, double EngineHours, double EngineCoolantPress=N2kDoubleNA, double EngineFuelPress=N2kDoubleNA,
                        int8_t EngineLoad=N2kInt8NA, int8_t EngineTorque=N2kInt8NA,
                        bool flagCheckEngine=false,       bool flagOverTemp=false,         bool flagLowOilPress=false,         bool flagLowOilLevel=false,
@@ -1283,7 +1283,7 @@ inline void SetN2kEngineDynamicParam(tN2kMsg &N2kMsg, unsigned char EngineInstan
                        bool flagRevLimitExceeded=false,  bool flagEgrSystem=false,        bool flagTPS=false,                 bool flagEmergencyStopMode=false,
                        bool flagWarning1=false,          bool flagWarning2=false,         bool flagPowerReduction=false,      bool flagMaintenanceNeeded=false,
                        bool flagEngineCommError=false,   bool flagSubThrottle=false,      bool flagNeutralStartProtect=false, bool flagEngineShuttingDown=false) {
-  SetN2kPGN127489(N2kMsg,EngineInstance, EngineOilPress, EngineOilTemp, EngineCoolantTemp, AltenatorVoltage,
+  SetN2kPGN127489Inline(N2kMsg,EngineInstance, EngineOilPress, EngineOilTemp, EngineCoolantTemp, AltenatorVoltage,
                        FuelRate, EngineHours, EngineCoolantPress, EngineFuelPress, EngineLoad, EngineTorque,
                        flagCheckEngine, flagOverTemp, flagLowOilPress, flagLowOilLevel,
                        flagLowFuelPress, flagLowSystemVoltage, flagLowCoolantLevel, flagWaterFlow,
