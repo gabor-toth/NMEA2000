@@ -1184,7 +1184,7 @@ protected:
      * \retval true   success
      * \retval false  failed
      */
-    bool SendFrame(const tN2kMsg &N2kMsg,unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent=true);
+    bool SendFrame(unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent=true);
 
     /*********************************************************************//**
      * \brief Get the Next Free CAN Frame from \ref CANSendFrameBuf

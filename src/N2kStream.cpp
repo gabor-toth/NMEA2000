@@ -53,7 +53,7 @@ size_t N2kStream::print(const __FlashStringHelper* str) {
 #endif
 
 
-size_t N2kStream::print(int val) {
+size_t N2kStream::print(int val, uint8_t radix) {
    char buf[8 * sizeof(val) + 1];
 
    snprintf(buf,sizeof (buf), "%d", val);
