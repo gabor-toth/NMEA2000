@@ -130,7 +130,7 @@ class N2kStream {
     * \param radix   Base format to be used (e.g. 10, 16, 8 ,2)
     * \return size_t 
     */
-   size_t println(int val);
+   size_t println(int val, uint8_t radix);
 };
 #endif
 

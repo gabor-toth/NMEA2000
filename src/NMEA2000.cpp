@@ -1379,7 +1379,7 @@ bool tNMEA2000::SendFrames()
 }
 
 //*****************************************************************************
-bool tNMEA2000::SendFrame(const tN2kMsg &N2kMsg,unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent) {
+bool tNMEA2000::SendFrame(unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent) {
     N2kMsgDbgStart("Send PGN %05x prio %02x src %02x dst %02x (canId %08x) len %2d",
                    N2kMsg.PGN, N2kMsg.Priority, N2kMsg.Source, N2kMsg.Destination, id, N2kMsg.DataLen );
 #if defined(NMEA2000_BUF_DEBUG)
@@ -1407,7 +1407,7 @@ bool tNMEA2000::SendFrame(const tN2kMsg &N2kMsg,unsigned long id, unsigned char 
 
 #if !defined(N2K_NO_HEARTBEAT_SUPPORT)
 //*****************************************************************************
-void tNMEA2000::SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset, int iDev) {
+void tNMEA2000::SetHeartbeatIntervalAndOffset(uint32_t interval, uint32_t offset, int iDev, HeartBeatCallback heartBeatCallback ) {
   if ( interval==0xffffffff && offset==0xffff ) return; // Do not change
   InitDevices();
   for (int i=(iDev<0?0:iDev); i<DeviceCount && (iDev<0?true:i<iDev+1); i++) {
@@ -1532,7 +1532,7 @@ bool tNMEA2000::SendMsg(const tN2kMsg &N2kMsg, int DeviceIndex) {
       if ( IsAddressClaimStarted(DeviceIndex) && N2kMsg.PGN!=N2kPGNIsoAddressClaim ) return false;
 
       if (N2kMsg.DataLen<=8 && !IsFastPacket(N2kMsg) ) { // We can send single frame
-          result=SendFrame(N2kMsg, canId, N2kMsg.DataLen, N2kMsg.Data,false);
+          result=SendFrame(canId, N2kMsg.DataLen, N2kMsg.Data,false);
           if (!result && ForwardStream!=0 && ForwardType==tNMEA2000::fwdt_Text) { ForwardStream->print(F("PGN ")); ForwardStream->print(N2kMsg.PGN); ForwardStream->println(F(" send failed")); }
           N2kPrintFreeMemory("SendMsg, single frame");
       } else { // Send it as fast packet in multiple frames
@@ -1569,7 +1569,7 @@ bool tNMEA2000::SendMsg(const tN2kMsg &N2kMsg, int DeviceIndex) {
                    }
               }
 
-              result=SendFrame(N2kMsg, canId, j, temp, true);
+              result=SendFrame(canId, j, temp, true);
               if (!result && ForwardStream!=0 && ForwardType==tNMEA2000::fwdt_Text) {
                 ForwardStream->print(F("PGN ")); ForwardStream->print(N2kMsg.PGN);
                 ForwardStream->print(F(", frame:")); ForwardStream->print(i); ForwardStream->print(F("/")); ForwardStream->print(frames);
@@ -2451,7 +2451,7 @@ void tNMEA2000::StartAddressClaim(int iDev) {
     Devices[iDev].AddressClaimTimer.Disable();
     if ( (ForwardStream!=0) && ( ForwardType==tNMEA2000::fwdt_Text) ) {
       ForwardStream->print(F("Start address claim for device "));
-      ForwardStream->println(iDev);
+      ForwardStream->println(iDev,16);
     }
     SendIsoAddressClaim(0xff,iDev);
     Devices[iDev].AddressClaimTimer.FromNow(N2kAddressClaimTimeout);
